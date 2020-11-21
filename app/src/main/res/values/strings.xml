@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">FundamentalsKotlin</string>
+    <string name="movies_text">Movies list</string>
+    <string name="pg_text">+13</string>
+    <string name="tag_text">Action, Adventure, Drama</string>
+    <string name="back">Back</string>
+    <string name="name">Avengers: End Game</string>
+    <string name="reviews">125  REVIEWS</string>
+    <string name="storyline_name">Storyline</string>
+    <string name="storylinetxt">After the devastating events of Avengers: Infinity War,
+        the universe is in ruins. With the help of remaining allies,
+        the Avengers assemble once more in order to reverse
+        Thanos\' actions and restore balance to the universe.</string>
+    <string name="cast">Cast</string>
+    <string name="actor_movie1">Robert  Downey Jr.</string>
+    <string name="actor_movie2">Chris  Evans</string>
+    <string name="actor_movie3">Mark  Ruffalo</string>
+    <string name="actor_movie4">Chris  Hemsworth</string>
+    <string name="minute">137 min</string>
 </resources>
