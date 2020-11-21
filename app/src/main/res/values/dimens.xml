@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <dimen name="head_text">14sp</dimen>
+        <dimen name="normal_text">12sp</dimen>
+        <dimen name="min_text">8sp</dimen>
+        <dimen name="max_text">40dp</dimen>
+
+</resources>
