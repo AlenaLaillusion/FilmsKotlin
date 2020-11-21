@@ -15,5 +15,9 @@ class MainActivity : AppCompatActivity() {
             val movieDetailsActivity = Intent(this, MovieDetailsActivity::class.java)
             startActivity(movieDetailsActivity)
         }
+        iv_shape.setOnClickListener {
+            val movieDetailsActivity = Intent(this, MovieDetailsActivity::class.java)
+            startActivity(movieDetailsActivity)
+        }
     }
 }
