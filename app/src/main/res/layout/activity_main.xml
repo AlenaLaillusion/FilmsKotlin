@@ -59,7 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="44dp"
-        android:text="Homework #2"
+        android:text="@string/hw2"
         app:layout_constraintStart_toStartOf="@+id/rv_movies"
         app:layout_constraintTop_toBottomOf="@+id/tv_movies" />
 </androidx.constraintlayout.widget.ConstraintLayout>
