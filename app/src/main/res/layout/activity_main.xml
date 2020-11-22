@@ -38,7 +38,7 @@
         app:layout_constraintStart_toEndOf="@+id/rv_movies"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/shape" />
+        app:srcCompat="@drawable/ic_combined_shape" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_movies"
