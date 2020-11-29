@@ -7,65 +7,13 @@
     android:background="@color/blackground"
     tools:context=".MainActivity">
 
-
-    <TextView
-        android:id="@+id/tv_movies"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="2dp"
-        android:fontFamily="sans-serif"
-        android:paddingTop="@dimen/min_text"
-        android:paddingBottom="@dimen/min_text"
-        android:paddingLeft="@dimen/min_text"
-        android:text="@string/movies_text"
-        android:textColor="@color/white"
-        android:textSize="@dimen/head_text"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_shape"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/iv_shape"
-        app:layout_constraintTop_toTopOf="@+id/iv_shape" />
-
-    <ImageView
-        android:id="@+id/iv_shape"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="44dp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_movies"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/rv_movies"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_combined_shape" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_movies"
+    <FrameLayout
+        android:id="@+id/fragments_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="7dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginEnd="7dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_movies" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
-
-    <Button
-        android:id="@+id/btn_hw2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="44dp"
-        android:text="@string/hw2"
-        app:layout_constraintStart_toStartOf="@+id/rv_movies"
-        app:layout_constraintTop_toBottomOf="@+id/tv_movies" />
 </androidx.constraintlayout.widget.ConstraintLayout>

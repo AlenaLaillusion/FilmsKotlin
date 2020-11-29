@@ -1,23 +1,46 @@
 package com.example.fundamentalskotlin
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import kotlinx.android.synthetic.main.activity_main.*
+import androidx.appcompat.app.AppCompatActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), FragmentMoviesList.ClickListener {
+
+    private var moviesListFragment: FragmentMoviesList? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        btn_hw2.setOnClickListener {
-            val movieDetailsActivity = Intent(this, MovieDetailsActivity::class.java)
-            startActivity(movieDetailsActivity)
+        if(savedInstanceState == null) {
+            moviesListFragment = FragmentMoviesList().apply {
+                setClickListener(this@MainActivity)
+            }
+            supportFragmentManager.beginTransaction()
+                .apply {
+                    //addToBackStack(null)
+                    add(R.id.fragments_container, moviesListFragment!!, MOVIE_LIST_FRAGMENT)
+                    commit()
+                }
+        } else {
+            moviesListFragment =
+                supportFragmentManager.findFragmentByTag(MOVIE_LIST_FRAGMENT) as? FragmentMoviesList
         }
-        iv_shape.setOnClickListener {
-            val movieDetailsActivity = Intent(this, MovieDetailsActivity::class.java)
-            startActivity(movieDetailsActivity)
+    }
+
+    override fun addFragmentMoviesDetails() {
+        supportFragmentManager.beginTransaction()
+            .apply {
+                addToBackStack(null)
+            add(R.id.fragments_container, FragmentMoviesDetails())
+                commit()
         }
+    }
+
+    override fun backFragmentMoviesList() {
+        supportFragmentManager.popBackStack()
+
+    }
+    companion object {
+        private const val MOVIE_LIST_FRAGMENT = "FragmentMoviesList"
     }
 }

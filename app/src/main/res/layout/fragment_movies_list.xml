@@ -1,34 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="170dp"
-    android:layout_height="297dp"
-    android:background="@drawable/bg">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blackground">
+
+
+    <TextView
+        android:id="@+id/tv_movies"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:fontFamily="sans-serif"
+        android:paddingStart="@dimen/min_text"
+        android:paddingEnd="@dimen/padding_20"
+        android:paddingTop="@dimen/min_text"
+        android:paddingBottom="@dimen/min_text"
+        android:text="@string/movies_text"
+        android:textColor="@color/white"
+        android:textSize="@dimen/head_text"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_shape"
+        app:layout_constraintStart_toEndOf="@+id/iv_shape"
+        app:layout_constraintTop_toTopOf="@+id/iv_shape" />
+
+    <ImageView
+        android:id="@+id/iv_shape"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="44dp"
+        app:layout_constraintEnd_toStartOf="@+id/tv_movies"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_combined_shape" />
 
 
     <ImageView
         android:id="@+id/iv_mask"
         android:layout_width="166dp"
         android:layout_height="248dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="2dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_movies"
         app:srcCompat="@drawable/movie" />
 
     <View
         android:id="@+id/view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/mask"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/ic_mask"
+        android:shadowColor="@color/blackground"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_minut"
+        app:layout_constraintEnd_toEndOf="@+id/iv_mask"
+        app:layout_constraintStart_toStartOf="@+id/iv_mask"
         app:layout_constraintTop_toTopOf="@+id/iv_mask" />
 
     <TextView
@@ -62,7 +92,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
         android:layout_marginTop="214dp"
-        android:layout_marginEnd="14dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/tag_text"
         android:textColor="@color/red"
         android:textSize="@dimen/min_text"
@@ -76,11 +106,10 @@
         android:layout_height="12dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
-        android:layout_marginEnd="16dp"
         android:text="@string/reviews"
         android:textColor="@color/white_50"
         android:textSize="@dimen/min_text"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tv_tag"
         app:layout_constraintStart_toEndOf="@+id/iv_star5"
         app:layout_constraintTop_toBottomOf="@+id/tv_tag" />
 
@@ -114,11 +143,10 @@
         android:id="@+id/iv_star1"
         android:layout_width="8dp"
         android:layout_height="8dp"
-        android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/iv_star2"
         app:layout_constraintEnd_toStartOf="@+id/iv_star2"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tv_tag"
         app:layout_constraintTop_toTopOf="@+id/iv_star2"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ic_star_red" />
@@ -155,12 +183,13 @@
         android:layout_height="20dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="6dp"
-        android:layout_marginEnd="8dp"
+        android:paddingTop="@dimen/padding_2"
+        android:paddingBottom="@dimen/padding_2"
         android:gravity="center_vertical"
         android:text="@string/name"
         android:textColor="@color/white"
         android:textSize="@dimen/head_text"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tv_reviews"
         app:layout_constraintStart_toStartOf="@+id/view"
         app:layout_constraintTop_toBottomOf="@+id/iv_mask" />
 
@@ -168,17 +197,14 @@
         android:id="@+id/tv_minut"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:paddingTop="@dimen/padding_2"
-        android:paddingBottom="@dimen/padding_2"
+        android:paddingTop="@dimen/padding_4"
+        android:paddingBottom="@dimen/padding_4"
         android:text="@string/minute"
         android:textColor="@color/grey"
         android:textSize="@dimen/min_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="278dp" />
-
+        app:layout_constraintEnd_toEndOf="@+id/tv_name"
+        app:layout_constraintStart_toStartOf="@+id/tv_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
