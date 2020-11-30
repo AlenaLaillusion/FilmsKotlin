@@ -10,8 +10,7 @@ import androidx.fragment.app.Fragment
 
 class FragmentMoviesDetails: Fragment() {
 
-    private var btnBack: TextView? = null
-    private var listener: FragmentMoviesList.ClickListener? = null
+    private var listener: ClickListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -22,6 +21,7 @@ class FragmentMoviesDetails: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var btnBack: TextView? = null
         btnBack = view.findViewById<TextView>(R.id.tv_back).apply {
             setOnClickListener {
                  listener?.backFragmentMoviesList()
@@ -30,9 +30,7 @@ class FragmentMoviesDetails: Fragment() {
     }
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is FragmentMoviesList.ClickListener){
-            listener = context
-        }
+        listener = context  as? ClickListener
     }
 
 

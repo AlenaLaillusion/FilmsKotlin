@@ -30,9 +30,8 @@ class FragmentMoviesList: Fragment()  {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is ClickListener){
-            listener = context
-        }
+            listener = context as? ClickListener
+
     }
 
 
@@ -40,17 +39,6 @@ class FragmentMoviesList: Fragment()  {
         super.onDetach()
         listener = null
     }
-
-    fun setClickListener(l: ClickListener) {
-        listener = l
-    }
-
-    interface ClickListener {
-        fun addFragmentMoviesDetails()
-        fun backFragmentMoviesList()
-
-    }
-
 }
 
 
