@@ -219,117 +219,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_storylinetxt" />
 
-        <TextView
-            android:id="@+id/tv_movie3"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_actor"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:lines="2"
-            android:paddingTop="2dp"
-            android:text="@string/actor_movie3"
-            android:textColor="@color/grey_light"
-            android:textSize="@dimen/normal_text"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/iv_movie3"
-            app:layout_constraintStart_toStartOf="@id/iv_movie3"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintTop_toBottomOf="@+id/iv_movie3" />
-
-        <TextView
-            android:id="@+id/tv_movie1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:lines="2"
-            android:paddingTop="2dp"
-            android:text="@string/actor_movie1"
-            android:textColor="@color/grey_light"
-            android:textSize="@dimen/normal_text"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/iv_movie1"
-            app:layout_constraintStart_toEndOf="@id/iv_movie1"
-            app:layout_constraintStart_toStartOf="@id/iv_movie1"
-            app:layout_constraintTop_toBottomOf="@+id/iv_movie1"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <ImageView
-            android:id="@+id/iv_movie1"
-            android:layout_width="76dp"
-            android:layout_height="83dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:cropToPadding="false"
-            android:scaleType="center"
-            app:layout_constraintEnd_toStartOf="@+id/iv_movie2"
-            app:layout_constraintHorizontal_bias="0.51"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_cast"
-            app:srcCompat="@drawable/movie_1" />
-
-        <ImageView
-            android:id="@+id/iv_movie2"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/iv_movie3"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/iv_movie1"
-            app:layout_constraintTop_toBottomOf="@+id/tv_cast"
-            app:srcCompat="@drawable/movie_2" />
-
-        <ImageView
-            android:id="@+id/iv_movie4"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="2dp"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/iv_movie3"
-            app:layout_constraintTop_toBottomOf="@+id/tv_cast"
-            app:srcCompat="@drawable/movie_4" />
-
-        <ImageView
-            android:id="@+id/iv_movie3"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/iv_movie4"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/iv_movie2"
-            app:layout_constraintTop_toBottomOf="@+id/tv_cast"
-            app:srcCompat="@drawable/movie_3" />
-
-        <TextView
-            android:id="@+id/tv_movie2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:lines="2"
-            android:text="@string/actor_movie2"
-            android:textColor="@color/grey_light"
-            android:textSize="@dimen/normal_text"
-            android:paddingTop="@dimen/padding_2"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/iv_movie2"
-            app:layout_constraintStart_toStartOf="@+id/iv_movie2"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintTop_toBottomOf="@+id/iv_movie2" />
-
-        <TextView
-            android:id="@+id/tv_movie4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:paddingTop="2dp"
-            android:lines="2"
-            android:text="@string/actor_movie4"
-            android:textColor="@color/grey_light"
-            android:textSize="@dimen/normal_text"
-            app:layout_constraintEnd_toEndOf="@id/iv_movie4"
-            app:layout_constraintStart_toStartOf="@+id/iv_movie4"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_movie4" />
-
-
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_cast" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

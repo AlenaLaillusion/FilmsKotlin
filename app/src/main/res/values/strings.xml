@@ -18,4 +18,8 @@
     <string name="actor_movie4">Chris  Hemsworth</string>
     <string name="minute">137 min</string>
     <string name="hw2">Homework #2 - нажми меня</string>
+    <string name="fragment_movies_empty_text">There are no actors right now</string>
+
+    <string name="fragment_movies_chosen_text">You chose: %1$s</string>
+
 </resources>

@@ -7,10 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.fundamentalskotlin.data.Actor
+import com.example.fundamentalskotlin.domain.ActorDataSource
 
 class FragmentMoviesDetails: Fragment() {
 
-    private var listener: ClickListener? = null
+    private var changeFragment: ChangeFragment? = null
+    private lateinit var adapter: ActorsAdapterDiffUtil
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -21,21 +27,52 @@ class FragmentMoviesDetails: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val recycler: RecyclerView = view.findViewById(R.id.rv_actor)
+        adapter = ActorsAdapterDiffUtil()
+        recycler?.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        recycler.adapter = adapter
+
+       view.findViewById<TextView>(R.id.tv_cast).setOnClickListener {
+           shuffleActors()
+        }
         var btnBack: TextView? = null
         btnBack = view.findViewById<TextView>(R.id.tv_back).apply {
             setOnClickListener {
-                 listener?.backFragmentMoviesList()
+                 changeFragment?.backFragmentMoviesList()
             }
         }
     }
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        listener = context  as? ClickListener
+        changeFragment = context  as? ChangeFragment
     }
 
 
     override fun onDetach() {
         super.onDetach()
-        listener = null
+        changeFragment = null
     }
+
+    override fun onStart() {
+        super.onStart()
+        updateData()
+    }
+
+    private fun updateData() {
+        adapter.bindActors(ActorDataSource().getActor())
+        adapter.notifyDataSetChanged()
+    }
+
+
+    private fun shuffleActors() {
+        val originalData: List<Actor> = ActorDataSource().getActor()
+        val shuffledList: List<Actor> = ActorDataSource().getActor().shuffled()
+        adapter.bindActors(shuffledList)
+        /* Update adapter */
+        val diffCallback = MovieDiffUtil(originalData, shuffledList)
+        val diffResult: DiffUtil.DiffResult = DiffUtil.calculateDiff(diffCallback)
+        diffResult.dispatchUpdatesTo(adapter)
+    }
+
 }
