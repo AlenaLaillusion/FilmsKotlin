@@ -17,7 +17,6 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="2dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/movie" />
@@ -30,7 +29,6 @@
         android:background="@drawable/mask"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/iv_mask" />
 
@@ -96,7 +94,6 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/iv_star2"
         app:layout_constraintTop_toTopOf="@+id/iv_star4"
-        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ic_star_red" />
 
     <ImageView
@@ -109,7 +106,6 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/iv_star1"
         app:layout_constraintTop_toTopOf="@+id/iv_star3"
-        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ic_star_red" />
 
     <ImageView
@@ -121,7 +117,6 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/tv_genre"
         app:layout_constraintTop_toTopOf="@+id/iv_star2"
-        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ic_star_red" />
 
     <ImageView
@@ -134,7 +129,6 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/iv_star3"
         app:layout_constraintTop_toTopOf="@+id/iv_star5"
-        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ic_star_red" />
 
     <ImageView
@@ -147,7 +141,6 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/iv_star4"
         app:layout_constraintTop_toTopOf="@+id/tv_reviews"
-        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ic_star_grey" />
 
     <TextView

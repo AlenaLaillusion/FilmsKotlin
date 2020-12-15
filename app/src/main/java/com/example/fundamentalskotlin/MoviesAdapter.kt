@@ -22,18 +22,13 @@ class MoviesAdapter(private val clickListener: ClickListener?
 
         }
     }
-            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder {
-                return when (viewType) {
-                    VIEW_TYPE_EMPTY -> EmptyViewHolder(
-                        LayoutInflater.from(
-                            parent.context
-                        ).inflate(R.layout.item_movies_empty, parent, false)
-                    )
-                    else -> DataViewHolder(
-                        LayoutInflater.from(parent.context)
-                            .inflate(R.layout.view_holder_movie, parent, false)
-                    )
-                }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder {
+        return when (viewType) {
+            VIEW_TYPE_EMPTY -> EmptyViewHolder(LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_movies_empty, parent, false))
+            else -> DataViewHolder(LayoutInflater.from(parent.context)
+                .inflate(R.layout.view_holder_movie, parent, false))
+        }
     }
 
     override fun getItemCount(): Int = movies.size
@@ -79,7 +74,6 @@ private class DataViewHolder(itemView: View) : MoviesViewHolder(itemView) {
         reviews.text = movie.reviews
         genre.text = movie.genre
         minut.text = movie.minut
-
     }
 
     companion object {
@@ -87,13 +81,11 @@ private class DataViewHolder(itemView: View) : MoviesViewHolder(itemView) {
             .placeholder(R.drawable.ic_avatar_placeholder)
             .fallback(R.drawable.ic_avatar_placeholder)
             .centerCrop()
-
     }
 }
 
 private val RecyclerView.ViewHolder.context
     get() = this.itemView.context
-
 
 private const val VIEW_TYPE_EMPTY = 0
 private const val VIEW_TYPE_ACTORS = 1

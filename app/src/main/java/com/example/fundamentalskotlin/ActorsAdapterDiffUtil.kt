@@ -49,10 +49,8 @@ class ActorViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             .apply(imageOption)
             .into(avatar)
         nameActor.text = actor.nameActor
-
     }
 }
-
 
 private val RecyclerView.ViewHolder.context
     get() = this.itemView.context

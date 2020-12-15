@@ -2,39 +2,37 @@ package com.example.fundamentalskotlin
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.fundamentalskotlin.data.Movie
+
 
 class MainActivity : AppCompatActivity(), ChangeFragment  {
-
-   // private var moviesListFragment: FragmentMoviesList? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         if (savedInstanceState == null) {
-
             supportFragmentManager.beginTransaction()
-                .apply {
-                    //addToBackStack(null)
-                    add(R.id.fragments_container, FragmentMoviesList.newInstance())
-                    commit()
-                }
+                .add(R.id.fragments_container, FragmentMoviesList())
+                .commit()
         }
     }
 
-
-     override fun addFragmentMoviesDetails() {
+     override fun addFragmentMoviesDetails(movie: Movie) {
+         val fragment = FragmentMoviesDetails()
+         val args = Bundle()
+         args.putParcelable(Movie::class.java.simpleName, movie)
+         fragment.setArguments(args)
             supportFragmentManager.beginTransaction()
                 .apply {
                     addToBackStack(null)
-                    add(R.id.fragments_container, FragmentMoviesDetails())
+                    add(R.id.fragments_container, fragment)
                     commit()
                 }
         }
 
         override fun backFragmentMoviesList() {
             supportFragmentManager.popBackStack()
-
         }
     }
 
