@@ -6,6 +6,7 @@
     <string name="back">Back</string>
     <string name="name">Avengers: End Game</string>
     <string name="reviews">125  REVIEWS</string>
+    <string name="reviews_">  REVIEWS</string>
     <string name="storyline_name">Storyline</string>
     <string name="storylinetxt">After the devastating events of Avengers: Infinity War,
         the universe is in ruins. With the help of remaining allies,
@@ -17,8 +18,10 @@
     <string name="actor_movie3">Mark  Ruffalo</string>
     <string name="actor_movie4">Chris  Hemsworth</string>
     <string name="minute">137 min</string>
+    <string name="min">  min</string>
     <string name="hw2">Homework #2 - нажми меня</string>
     <string name="fragment_movies_empty_text">There are no actors right now</string>
+    <string name="age_rating_default">18+</string>
 
     <string name="fragment_movies_chosen_text">You chose: %1$s</string>
 
