@@ -12,7 +12,7 @@ class MovieDiffUtil(
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         val oldItem = oldListActor[oldItemPosition]
         val newItem = newListActor[newItemPosition]
-        return oldItem.nameActor == newItem.nameActor
+        return oldItem.name == newItem.name
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {

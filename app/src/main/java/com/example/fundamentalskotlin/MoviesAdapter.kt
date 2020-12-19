@@ -1,34 +1,24 @@
 package com.example.fundamentalskotlin
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.fundamentalskotlin.data.Movie
+import com.example.fundamentalskotlin.databinding.ViewHolderMovieBinding
 
 class MoviesAdapter(private val clickListener: ClickListener?
 ): RecyclerView.Adapter<MoviesViewHolder>() {
 
     private var movies = listOf<Movie>()
 
-    override fun getItemViewType(position: Int): Int {
-        return when (movies.size) {
-            0 -> VIEW_TYPE_EMPTY
-            else -> VIEW_TYPE_ACTORS
 
-        }
-    }
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder {
-        return when (viewType) {
-            VIEW_TYPE_EMPTY -> EmptyViewHolder(LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_movies_empty, parent, false))
-            else -> DataViewHolder(LayoutInflater.from(parent.context)
-                .inflate(R.layout.view_holder_movie, parent, false))
-        }
+    override fun onBindViewHolder(holder: MoviesViewHolder, position: Int) {
+        holder.onBind(movies[position])
+        holder.itemView.setOnClickListener { clickListener?.onClick(movies[position]) }
     }
 
     override fun getItemCount(): Int = movies.size
@@ -38,42 +28,35 @@ class MoviesAdapter(private val clickListener: ClickListener?
         notifyDataSetChanged()
     }
 
-    override fun onBindViewHolder(holder: MoviesViewHolder, position: Int) {
-        when (holder) {
-            is DataViewHolder -> {
-                holder.onBind(movies[position])
-                holder.itemView.setOnClickListener {
-                    clickListener?.onClick(movies[position])
-                }
-            }
-            is EmptyViewHolder -> { /* nothing to bind */ }
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder {
+        val view: View = LayoutInflater.from(parent.context)
+            .inflate(R.layout.view_holder_movie, parent, false)
+        return MoviesViewHolder(view)
     }
 }
 
-abstract class MoviesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+ class MoviesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    private val binding = ViewHolderMovieBinding.bind(itemView)
 
-private class EmptyViewHolder(itemView: View) : MoviesViewHolder(itemView)
-
-private class DataViewHolder(itemView: View) : MoviesViewHolder(itemView) {
-    private val image: ImageView = itemView.findViewById(R.id.iv_mask)
-    private val name: TextView = itemView.findViewById(R.id.tv_name)
-    private val ageRating: TextView = itemView.findViewById(R.id.tv_rectangle)
-    private val reviews: TextView = itemView.findViewById(R.id.tv_reviews)
-    private val genre: TextView = itemView.findViewById(R.id.tv_genre)
-    private val minut: TextView = itemView.findViewById(R.id.tv_minut)
-
+    @SuppressLint("SetTextI18n")
     fun onBind(movie: Movie) {
-        Glide.with(context)
-            .load(movie.image)
+        Glide.with(itemView.context)
+            .load(movie.poster)
             .apply(imageOption)
-            .into(image)
+            .into(binding.ivMask)
 
-        name.text = movie.name
-        ageRating.text = movie.ageRating
-        reviews.text = movie.reviews
-        genre.text = movie.genre
-        minut.text = movie.minut
+        when {
+            movie.adult -> binding.tvRectangle.text =
+                itemView.resources.getString(R.string.age_rating_default)
+            else -> binding.tvRectangle.visibility = View.INVISIBLE
+        }
+
+        binding.tvName.text = movie.title
+        binding.tvMinut.text = movie.runtime.toString() + "  " + itemView.resources.getString(R.string.min)
+        binding.tvReviews.text = movie.reviews.toString() + "  " + itemView.resources.getString( R.string.reviews_)
+        binding.tvGenre.text = movie.genres.joinToString( ", ") { it.name }
+        binding.ratingStar.rating = movie.ratings / RATING_CONST
+        binding.ivLike.setImageResource(if(movie.like) R.drawable.ic_like_red else R.drawable.ic_like)
     }
 
     companion object {
@@ -83,9 +66,7 @@ private class DataViewHolder(itemView: View) : MoviesViewHolder(itemView) {
             .centerCrop()
     }
 }
-
 private val RecyclerView.ViewHolder.context
     get() = this.itemView.context
 
-private const val VIEW_TYPE_EMPTY = 0
-private const val VIEW_TYPE_ACTORS = 1
+const val  RATING_CONST = 2
