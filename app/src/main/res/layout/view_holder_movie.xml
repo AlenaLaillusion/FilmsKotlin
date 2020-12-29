@@ -120,7 +120,7 @@
         android:layout_marginTop="4dp"
         android:rating="4.0"
         android:stepSize="1.0"
-        android:theme="@style/MyRatingBar2"
+        android:theme="@style/MyRatingBar"
         app:layout_constraintStart_toStartOf="@+id/tv_genre"
         app:layout_constraintTop_toBottomOf="@+id/tv_genre" />
 
