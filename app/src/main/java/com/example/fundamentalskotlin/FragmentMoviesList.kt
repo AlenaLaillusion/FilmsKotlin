@@ -11,13 +11,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.fundamentalskotlin.data.Movie
 import com.example.fundamentalskotlin.data.loadMovies
 import com.example.fundamentalskotlin.databinding.FragmentMoviesListBinding
-import com.example.fundamentalskotlin.domain.MoviesDataSource
 import kotlinx.coroutines.*
 
 
-class FragmentMoviesList: Fragment() {
+class FragmentMoviesList : Fragment() {
 
-    //private var recycler: RecyclerView? = null
     private var changeFragment: ChangeFragment? = null
     private var _binding: FragmentMoviesListBinding? = null
     private val binding get() = _binding!!
@@ -27,6 +25,7 @@ class FragmentMoviesList: Fragment() {
     }
 
     private var scope = CoroutineScope(
+
         SupervisorJob() +
                 Dispatchers.IO +
                 exceptionHandler
@@ -37,7 +36,7 @@ class FragmentMoviesList: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentMoviesListBinding.inflate(inflater,container, false)
+        _binding = FragmentMoviesListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -45,9 +44,8 @@ class FragmentMoviesList: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.rvMovie.layoutManager = GridLayoutManager(activity, GRID_LAYOUT_ROW_COUNT)
         binding.rvMovie.adapter = MoviesAdapter(clickListener)
-        binding.rvMovie.hasFixedSize()
     }
-    
+
     override fun onStart() {
         updateData()
         super.onStart()
@@ -70,10 +68,9 @@ class FragmentMoviesList: Fragment() {
             moviesList = loadMovies(requireContext())
             // send list into adapter
             (binding.rvMovie.adapter as? MoviesAdapter)?.apply {
-                moviesList?.let { bindMovies(it) }
+                moviesList?.let { bindMovies(moviesList!!) }
             }
         }
-
     }
 
     private val clickListener = object : ClickListener {
@@ -91,4 +88,5 @@ class FragmentMoviesList: Fragment() {
         super.onDestroyView()
     }
 }
-const val  GRID_LAYOUT_ROW_COUNT = 2
+
+const val GRID_LAYOUT_ROW_COUNT = 2
