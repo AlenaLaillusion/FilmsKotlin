@@ -1,21 +1,27 @@
-package com.example.fundamentalskotlin
+package com.lea.fundamentalskotlin
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.fundamentalskotlin.data.Movie
-import com.example.fundamentalskotlin.databinding.FragmentMoviesDetailsBinding
+import com.lea.fundamentalskotlin.adapters.ActorsAdapterDiffUtil
+import com.lea.fundamentalskotlin.adapters.RATING_CONST
+import com.lea.fundamentalskotlin.data.Movie
+import com.lea.fundamentalskotlin.databinding.FragmentMoviesDetailsBinding
+import com.lea.fundamentalskotlin.viewmodels.FragmentMoviesDetailsViewModel
+import com.lea.fundamentalskotlin.viewmodels.MoviesDetailsViewModelFactory
+
 
 class FragmentMoviesDetails : Fragment() {
 
-    private var changeFragment: ChangeFragment? = null
+    private lateinit var viewModel: FragmentMoviesDetailsViewModel
 
     private var _binding: FragmentMoviesDetailsBinding? = null
     private val binding get() = _binding!!
@@ -25,9 +31,14 @@ class FragmentMoviesDetails : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMoviesDetailsBinding.inflate(inflater, container, false)
+
+        val movie = FragmentMoviesDetailsArgs.fromBundle(requireArguments()).selectedMovie
+        val viewModelFactory = MoviesDetailsViewModelFactory(movie)
+        viewModel = ViewModelProvider(this, viewModelFactory)
+            .get(FragmentMoviesDetailsViewModel::class.java)
+
         return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,14 +47,19 @@ class FragmentMoviesDetails : Fragment() {
         binding.rvActor.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
 
-        binding.tvBack.apply {
-            setOnClickListener {
-                changeFragment?.backFragmentMoviesList()
-            }
+        binding.tvBack.setOnClickListener {
+            requireActivity().onBackPressed()
         }
 
-        val movie = requireArguments().getParcelable<Movie>(Movie::class.java.simpleName)
-        movie?.let { setMovieData(movie) }
+        setObservers()
+
+        viewModel.setMovie()
+    }
+
+    private fun setObservers() {
+        viewModel.selectedMovie.observe(viewLifecycleOwner, {
+            setMovieData(it)
+        })
     }
 
     @SuppressLint("SetTextI18n")
@@ -52,22 +68,23 @@ class FragmentMoviesDetails : Fragment() {
             .load(movie.backdrop)
             .apply(imageOption)
             .into(binding.ivOrig)
+
         with(movie) {
+
             when {
                 adult -> binding.tvRg.text = resources.getString(R.string.age_rating_default)
                 else -> binding.tvRg.visibility = View.INVISIBLE
             }
+
             binding.tvNamef.text = title
-            binding.tvReviews.text =
-                reviews.toString() + resources.getString(R.string.reviews_)
+            binding.tvReviews.text = reviews.toString() + resources.getString(R.string.reviews_)
             binding.tvTag.text = genres.joinToString(", ") { it.name }
             binding.tvStorylinetxt.text = overview
-            binding.ratingStars.rating = ratings / RATING_CONST
+            binding.ratingStars.rating = (ratings / RATING_CONST)
 
             when {
-                actors.isNotEmpty() -> (binding.rvActor.adapter as? ActorsAdapterDiffUtil)?.bindActors(
-                    actors
-                )
+                actors.isNotEmpty() -> (binding.rvActor.adapter as? ActorsAdapterDiffUtil)?.bindActors(actors)
+
                 else -> binding.tvCast.visibility = View.INVISIBLE
             }
         }
@@ -78,19 +95,10 @@ class FragmentMoviesDetails : Fragment() {
         .fallback(R.drawable.ic_avatar_placeholder)
         .centerCrop()
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        changeFragment = context as? ChangeFragment
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        changeFragment = null
-    }
-
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
     }
 }
+
 
