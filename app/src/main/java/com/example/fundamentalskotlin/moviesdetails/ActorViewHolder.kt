@@ -1,35 +1,14 @@
-package com.example.fundamentalskotlin
+package com.example.fundamentalskotlin.moviesdetails
 
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.fundamentalskotlin.R
 import com.example.fundamentalskotlin.data.Actor
-
-class ActorsAdapterDiffUtil : RecyclerView.Adapter<ActorViewHolder>() {
-
-    private var actorsList = listOf<Actor>()
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActorViewHolder =
-        ActorViewHolder(LayoutInflater.from(parent.context)
-            .inflate(R.layout.view_holder_actor, parent, false))
-
-    override fun onBindViewHolder(holder: ActorViewHolder, position: Int) {
-        holder.onBind(actorsList[position])
-    }
-
-    override fun getItemCount(): Int = actorsList.size
-
-    fun bindActors(newActors: List<Actor>) {
-        actorsList = newActors
-        notifyDataSetChanged()
-    }
-}
 
 class ActorViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -45,7 +24,6 @@ class ActorViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         name.text = actor.name
         Log.d("Parcel", "actor.name = ${actor.name}")
     }
-
     companion object {
         private val imageOption = RequestOptions()
             .placeholder(R.drawable.ic_avatar_placeholder)
@@ -53,4 +31,3 @@ class ActorViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             .centerCrop()
     }
 }
-

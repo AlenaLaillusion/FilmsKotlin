@@ -1,6 +1,5 @@
-package com.lea.fundamentalskotlin
+package com.example.fundamentalskotlin.moviesdetails
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,13 +9,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
-import com.lea.fundamentalskotlin.adapters.ActorsAdapterDiffUtil
-import com.lea.fundamentalskotlin.adapters.RATING_CONST
-import com.lea.fundamentalskotlin.data.Movie
-import com.lea.fundamentalskotlin.databinding.FragmentMoviesDetailsBinding
-import com.lea.fundamentalskotlin.viewmodels.FragmentMoviesDetailsViewModel
-import com.lea.fundamentalskotlin.viewmodels.MoviesDetailsViewModelFactory
+import com.example.fundamentalskotlin.R
+import com.example.fundamentalskotlin.data.Actor
+import com.example.fundamentalskotlin.data.Movie
+import com.example.fundamentalskotlin.databinding.FragmentMoviesDetailsBinding
+import com.example.fundamentalskotlin.movieslist.RATING_CONST
 
 
 class FragmentMoviesDetails : Fragment() {
@@ -26,14 +25,17 @@ class FragmentMoviesDetails : Fragment() {
     private var _binding: FragmentMoviesDetailsBinding? = null
     private val binding get() = _binding!!
 
+    private var movie: Movie? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMoviesDetailsBinding.inflate(inflater, container, false)
 
-        val movie = FragmentMoviesDetailsArgs.fromBundle(requireArguments()).selectedMovie
-        val viewModelFactory = MoviesDetailsViewModelFactory(movie)
+        movie = FragmentMoviesDetailsArgs.fromBundle(requireArguments()).selectedMovie
+
+        val viewModelFactory = MoviesDetailsViewModelFactory()
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(FragmentMoviesDetailsViewModel::class.java)
 
@@ -44,8 +46,7 @@ class FragmentMoviesDetails : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.rvActor.adapter = ActorsAdapterDiffUtil()
-        binding.rvActor.layoutManager =
-            LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        binding.rvActor.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         binding.tvBack.setOnClickListener {
             requireActivity().onBackPressed()
@@ -53,21 +54,27 @@ class FragmentMoviesDetails : Fragment() {
 
         setObservers()
 
-        viewModel.setMovie()
+        movie?.let {
+            setMovieData(it)
+            viewModel.getActors(it.id)
+        }
     }
 
     private fun setObservers() {
-        viewModel.selectedMovie.observe(viewLifecycleOwner, {
-            setMovieData(it)
+        viewModel.actors.observe(viewLifecycleOwner, {
+            setActorsData(it)
         })
     }
 
-    @SuppressLint("SetTextI18n")
     private fun setMovieData(movie: Movie) {
-        Glide.with(requireContext())
-            .load(movie.backdrop)
-            .apply(imageOption)
-            .into(binding.ivOrig)
+        movie.backdrop?.let {
+            Glide.with(requireContext())
+                .load(movie.backdrop)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                .apply(imageOption)
+                .into(binding.ivOrig)
+
+        }
 
         with(movie) {
 
@@ -78,17 +85,21 @@ class FragmentMoviesDetails : Fragment() {
 
             binding.tvNamef.text = title
             binding.tvReviews.text = reviews.toString() + resources.getString(R.string.reviews_)
-            binding.tvTag.text = genres.joinToString(", ") { it.name }
+            binding.tvTag.text = genres.joinToString(", ")
             binding.tvStorylinetxt.text = overview
             binding.ratingStars.rating = (ratings / RATING_CONST)
 
-            when {
-                actors.isNotEmpty() -> (binding.rvActor.adapter as? ActorsAdapterDiffUtil)?.bindActors(actors)
-
-                else -> binding.tvCast.visibility = View.INVISIBLE
-            }
         }
     }
+
+private fun setActorsData(actors: List<Actor>) {
+    if (actors.isNotEmpty()) {
+        binding.tvCast.visibility = View.VISIBLE
+        (binding.rvActor.adapter as? ActorsAdapterDiffUtil)?.bindActors(actors)
+    } else {
+        binding.tvCast.visibility = View.INVISIBLE
+    }
+}
 
     val imageOption = RequestOptions()
         .placeholder(R.drawable.ic_avatar_placeholder)
