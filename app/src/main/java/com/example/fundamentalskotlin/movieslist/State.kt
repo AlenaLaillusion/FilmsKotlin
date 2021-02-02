@@ -1,8 +1,8 @@
 package com.example.fundamentalskotlin.movieslist
 
 sealed class State {
-    class Init : State()
-    class Loading : State()
-    class Error : State()
-    class Success : State()
+    object Init : State()
+    object Loading : State()
+    object Error : State()
+    object Success : State()
 }

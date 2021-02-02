@@ -25,4 +25,6 @@
 
     <string name="fragment_movies_chosen_text">You chose: %1$s</string>
 
+    <string name="error_mesage">Error grab movies data from DB</string>
+
 </resources>
