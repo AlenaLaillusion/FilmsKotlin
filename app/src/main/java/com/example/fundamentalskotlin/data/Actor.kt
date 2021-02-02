@@ -1,12 +1,11 @@
 package com.example.fundamentalskotlin.data
 
-class Actor (
-    val avatar: String,
-    val nameActor: String
-)
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
-/*data class Actor(
+@Parcelize
+ data class Actor(
     val id: Int,
     val name: String,
     val picture: String
-) */
+) : Parcelable
