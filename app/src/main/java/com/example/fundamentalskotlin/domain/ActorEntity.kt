@@ -1,8 +1,8 @@
-package com.example.fundamentalskotlin.storage.entitys
+package com.example.fundamentalskotlin.domain
 
 import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
-import com.example.fundamentalskotlin.storage.DbContract
+import com.example.fundamentalskotlin.cache.DbContract
 
 @Entity(
     tableName = DbContract.ActorContract.TABLE_NAME,

@@ -1,4 +1,4 @@
-package com.example.fundamentalskotlin.moviesdetails
+package com.example.fundamentalskotlin.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,7 +15,8 @@ import com.example.fundamentalskotlin.R
 import com.example.fundamentalskotlin.data.Actor
 import com.example.fundamentalskotlin.data.Movie
 import com.example.fundamentalskotlin.databinding.FragmentMoviesDetailsBinding
-import com.example.fundamentalskotlin.movieslist.RATING_CONST
+import com.example.fundamentalskotlin.presentation.FragmentMoviesDetailsViewModel
+import com.example.fundamentalskotlin.presentation.MoviesDetailsViewModelFactory
 
 
 class FragmentMoviesDetails : Fragment() {
@@ -33,9 +34,12 @@ class FragmentMoviesDetails : Fragment() {
     ): View {
         _binding = FragmentMoviesDetailsBinding.inflate(inflater, container, false)
 
-        movie = FragmentMoviesDetailsArgs.fromBundle(requireArguments()).selectedMovie
+        movie = FragmentMoviesDetailsArgs.fromBundle(
+            requireArguments()
+        ).selectedMovie
 
-        val viewModelFactory = MoviesDetailsViewModelFactory()
+        val viewModelFactory =
+            MoviesDetailsViewModelFactory()
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(FragmentMoviesDetailsViewModel::class.java)
 
@@ -45,7 +49,8 @@ class FragmentMoviesDetails : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.rvActor.adapter = ActorsAdapterDiffUtil()
+        binding.rvActor.adapter =
+            ActorsAdapterDiffUtil()
         binding.rvActor.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         binding.tvBack.setOnClickListener {

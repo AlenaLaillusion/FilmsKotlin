@@ -1,4 +1,4 @@
-package com.example.fundamentalskotlin.movieslist
+package com.example.fundamentalskotlin.presentation
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -9,7 +9,8 @@ import com.example.fundamentalskotlin.R
 import com.example.fundamentalskotlin.api.MovieApi
 import com.example.fundamentalskotlin.api.convertMovieDtoToDomain
 import com.example.fundamentalskotlin.data.Movie
-import com.example.fundamentalskotlin.storage.repository.MoviesRepository
+import com.example.fundamentalskotlin.domain.MoviesRepository
+import com.example.fundamentalskotlin.domain.State
 import kotlinx.coroutines.launch
 
 class FragmentMoviesListViewModel(
@@ -17,7 +18,9 @@ class FragmentMoviesListViewModel(
     private val repository: MoviesRepository
 ) : ViewModel() {
 
-    private val _state = MutableLiveData<State>(State.Init)
+    private val _state = MutableLiveData<State>(
+        State.Init
+    )
     val state: LiveData<State>get() = _state
 
     private val _moviesData = MutableLiveData<List<Movie>>()
@@ -26,7 +29,8 @@ class FragmentMoviesListViewModel(
 
     fun loadMovies() {
         viewModelScope.launch {
-            _state.value = State.Loading
+            _state.value =
+                State.Loading
             loadMoviesFromDb()
             loadMoviesFromApi()
         }
@@ -36,7 +40,8 @@ class FragmentMoviesListViewModel(
         try {
 
             if (state.value != State.Success) {
-                _state.value = State.Loading
+                _state.value =
+                    State.Loading
         }
 
             val genres = apiService.getGenres()
@@ -44,17 +49,19 @@ class FragmentMoviesListViewModel(
             val movies = convertMovieDtoToDomain(moviesDto.results, genres.genres)
 
             _moviesData.value = movies
-            _state.value = State.Success
+            _state.value =
+                State.Success
 
             if (!movies.isNullOrEmpty()) {
                 repository.rewriteMoviesListIntoDB(movies)
             }
     } catch (e: Exception) {
             if (state.value != State.Success) {
-                _state.value = State.Error
+                _state.value =
+                    State.Error
             }
             Log.e(FragmentMoviesListViewModel::class.java.simpleName,
-                "Error grab movies data from API: ${e.message}")
+                R.string.error_mesage_Api.toString() + {e.message})
         }
     }
 
@@ -64,11 +71,12 @@ class FragmentMoviesListViewModel(
 
             if (moviesDb.isNotEmpty()) {
                 _moviesData.value = moviesDb
-                _state.value = State.Success
+                _state.value =
+                    State.Success
             }
         } catch (e: java.lang.Exception) {
             Log.e(FragmentMoviesListViewModel::class.java.simpleName,
-            R.string.error_mesage.toString() + {e.message})
+            R.string.error_mesage_DB.toString() + {e.message})
         }
     }
 }

@@ -1,7 +1,7 @@
-package com.example.fundamentalskotlin.storage
+package com.example.fundamentalskotlin.cache
 
 import androidx.room.*
-import com.example.fundamentalskotlin.storage.entitys.MovieEntity
+import com.example.fundamentalskotlin.domain.MovieEntity
 
 @Dao
 interface MoviesDao {

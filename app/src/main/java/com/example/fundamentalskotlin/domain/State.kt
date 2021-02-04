@@ -1,4 +1,4 @@
-package com.example.fundamentalskotlin.movieslist
+package com.example.fundamentalskotlin.domain
 
 sealed class State {
     object Init : State()

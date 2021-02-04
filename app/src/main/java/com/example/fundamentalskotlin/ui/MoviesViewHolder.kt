@@ -1,4 +1,4 @@
-package com.example.fundamentalskotlin.movieslist
+package com.example.fundamentalskotlin.ui
 
 import android.annotation.SuppressLint
 import android.view.View

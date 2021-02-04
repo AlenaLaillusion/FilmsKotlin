@@ -1,9 +1,9 @@
-package com.example.fundamentalskotlin.storage.entitys
+package com.example.fundamentalskotlin.domain
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.fundamentalskotlin.storage.DbContract
+import com.example.fundamentalskotlin.cache.DbContract
 
 @Entity(tableName = DbContract.MovieContract.TABLE_NAME)
 data class MovieEntity (

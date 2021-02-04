@@ -1,4 +1,4 @@
-package com.example.fundamentalskotlin.moviesdetails
+package com.example.fundamentalskotlin.ui
 
 import android.util.Log
 import android.view.View

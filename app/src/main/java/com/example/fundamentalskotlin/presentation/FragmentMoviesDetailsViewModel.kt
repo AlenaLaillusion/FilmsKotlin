@@ -1,4 +1,4 @@
-package com.example.fundamentalskotlin.moviesdetails
+package com.example.fundamentalskotlin.presentation
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fundamentalskotlin.api.MovieApi
 import com.example.fundamentalskotlin.api.convertActorDtoToDomain
+import com.example.fundamentalskotlin.cache.repository.ActorsRepositoryImpl
 import com.example.fundamentalskotlin.data.Actor
-import com.example.fundamentalskotlin.storage.repository.ActorsRepositoryImpl
 import kotlinx.coroutines.launch
 
 class FragmentMoviesDetailsViewModel(
@@ -37,7 +37,8 @@ class FragmentMoviesDetailsViewModel(
                 repository.rewriteActorsByMovieIntoDB(actors, movieId)
         }
     } catch (e: Exception) {
-            Log.e(FragmentMoviesDetailsViewModel::class.java.simpleName,
+            Log.e(
+                FragmentMoviesDetailsViewModel::class.java.simpleName,
                 "Error grab actors data ${e.message}")
         }
     }
@@ -50,7 +51,8 @@ class FragmentMoviesDetailsViewModel(
                 _actors.value = actorsDb
             }
         } catch (e: Exception) {
-            Log.e (FragmentMoviesDetailsViewModel::class.java.simpleName,
+            Log.e (
+                FragmentMoviesDetailsViewModel::class.java.simpleName,
                 "Error grab actors data ${e.message}")
         }
     }

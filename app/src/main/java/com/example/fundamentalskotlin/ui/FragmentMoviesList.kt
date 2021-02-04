@@ -1,4 +1,4 @@
-package com.example.fundamentalskotlin.movieslist
+package com.example.fundamentalskotlin.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +11,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.fundamentalskotlin.data.Movie
 import com.example.fundamentalskotlin.databinding.FragmentMoviesListBinding
+import com.example.fundamentalskotlin.domain.State
+import com.example.fundamentalskotlin.presentation.FragmentMoviesListViewModel
+import com.example.fundamentalskotlin.presentation.MoviesListViewModelFactory
 
 
 class FragmentMoviesList : Fragment() {
@@ -35,10 +38,12 @@ class FragmentMoviesList : Fragment() {
 
         binding.rvMovie.adapter =
             MoviesAdapter(
-                ClickListener {movie ->
+                ClickListener { movie ->
                     openMoviesDetailFragment(movie)
                 })
-        binding.rvMovie.layoutManager = GridLayoutManager(context, GRID_LAYOUT_ROW_COUNT)
+        binding.rvMovie.layoutManager = GridLayoutManager(context,
+            GRID_LAYOUT_ROW_COUNT
+        )
 
         setObservers()
 
@@ -48,7 +53,11 @@ class FragmentMoviesList : Fragment() {
     }
 
     private fun openMoviesDetailFragment(movie: Movie) {
-        this.findNavController().navigate(FragmentMoviesListDirections.actionToMoviesDetails(movie))
+        this.findNavController().navigate(
+            FragmentMoviesListDirections.actionToMoviesDetails(
+                movie
+            )
+        )
     }
 
     private fun setObservers() {

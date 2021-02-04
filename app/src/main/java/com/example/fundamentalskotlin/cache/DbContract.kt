@@ -1,4 +1,4 @@
-package com.example.fundamentalskotlin.storage
+package com.example.fundamentalskotlin.cache
 
 import android.provider.BaseColumns
 

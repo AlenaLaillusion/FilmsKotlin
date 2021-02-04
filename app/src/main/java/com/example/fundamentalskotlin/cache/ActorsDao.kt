@@ -1,10 +1,10 @@
-package com.example.fundamentalskotlin.storage
+package com.example.fundamentalskotlin.cache
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.fundamentalskotlin.storage.entitys.ActorEntity
+import com.example.fundamentalskotlin.domain.ActorEntity
 
 @Dao
 interface ActorsDao {
