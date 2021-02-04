@@ -25,7 +25,7 @@
 
     <string name="fragment_movies_chosen_text">You chose: %1$s</string>
 
-    <string name="error_mesage_DB">Error loag movies data from DB</string>
-    <string name="error_mesage_Api">Error loag movies data from Api</string>
+    <string name="error_mesage_DB">Error loading movies data from DB</string>
+    <string name="error_mesage_Api">Error loading movies data from Api</string>
 
 </resources>
