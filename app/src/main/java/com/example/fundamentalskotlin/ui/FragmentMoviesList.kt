@@ -1,21 +1,23 @@
-package com.example.fundamentalskotlin.movieslist
+package com.example.fundamentalskotlin.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.fundamentalskotlin.data.Movie
 import com.example.fundamentalskotlin.databinding.FragmentMoviesListBinding
+import com.example.fundamentalskotlin.domain.State
+import com.example.fundamentalskotlin.presentation.FragmentMoviesListViewModel
+import com.example.fundamentalskotlin.presentation.MoviesListViewModelFactory
 
 
 class FragmentMoviesList : Fragment() {
 
-    private val viewModel: FragmentMoviesListViewModel by viewModels { MoviesListViewModelFactory() }
+    private lateinit var viewModel: FragmentMoviesListViewModel
 
     private var _binding: FragmentMoviesListBinding? = null
     private val binding get() = _binding!!
@@ -27,6 +29,9 @@ class FragmentMoviesList : Fragment() {
     ): View? {
         _binding = FragmentMoviesListBinding.inflate(inflater, container, false)
 
+        val viewModelFactory = MoviesListViewModelFactory(requireContext())
+        viewModel = ViewModelProvider(this, viewModelFactory).get(FragmentMoviesListViewModel::class.java)
+
         return binding.root
     }
 
@@ -35,28 +40,19 @@ class FragmentMoviesList : Fragment() {
 
         binding.rvMovie.adapter =
             MoviesAdapter(
-                ClickListener {movie ->
-                    openMoviesDetailFragment(movie)
+                ClickListener { movie ->
+                    viewModel.clickedMovie(movie)
                 })
         binding.rvMovie.layoutManager = GridLayoutManager(context, GRID_LAYOUT_ROW_COUNT)
 
         setObservers()
 
-        if(viewModel.moviesData.value.isNullOrEmpty()) {
-            viewModel.loadMovies()
-        }
     }
 
-    private fun openMoviesDetailFragment(movie: Movie) {
-        this.findNavController().navigate(FragmentMoviesListDirections.actionToMoviesDetails(movie))
-    }
 
     private fun setObservers() {
-
         viewModel.moviesData.observe(viewLifecycleOwner, { movieList ->
-            (binding.rvMovie.adapter as MoviesAdapter).apply {
-                bindMovies(movieList)
-            }
+            (binding.rvMovie.adapter as MoviesAdapter).apply { bindMovies(movieList) }
         })
 
         viewModel.state.observe(viewLifecycleOwner, { status ->
@@ -70,6 +66,14 @@ class FragmentMoviesList : Fragment() {
                 is State.Error -> {
                     binding.progressBar.visibility = View.INVISIBLE
                 }
+            }
+        })
+
+        viewModel.clickedMovie.observe(viewLifecycleOwner, {
+            if (null != it) {
+                this.findNavController()
+                    .navigate(FragmentMoviesListDirections.actionToMoviesDetails(it))
+                viewModel.clickedMovieShow()
             }
         })
     }

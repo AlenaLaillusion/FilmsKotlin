@@ -1,6 +1,7 @@
-package com.example.fundamentalskotlin.movieslist
+package com.example.fundamentalskotlin.ui
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -28,8 +29,10 @@ class MoviesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         binding.tvName.text = movie.title
         binding.tvMinut.text = movie.runtime.toString() + itemView.resources.getString(R.string.min)
         binding.tvReviews.text = movie.reviews.toString() + itemView.resources.getString(R.string.reviews_)
-        binding.tvGenre.text = movie.genres.joinToString(", ")
+        binding.tvGenre.text = movie.genres.joinToString(", ") { it.name }
         binding.ratingStar.rating = movie.ratings / RATING_CONST
+
+        Log.d(MoviesViewHolder::class.toString(), "tvGenre= ${movie.genres.joinToString(", ")}")
 
         binding.ivLike.setImageResource(
             if (movie.like)

@@ -25,4 +25,8 @@
 
     <string name="fragment_movies_chosen_text">You chose: %1$s</string>
 
+    <string name="error_movies_mesage_Data">Error loading movies data from Data</string>
+
+    <string name="error_actors_mesage_Data">Error loading actors data from Data</string>
+
 </resources>

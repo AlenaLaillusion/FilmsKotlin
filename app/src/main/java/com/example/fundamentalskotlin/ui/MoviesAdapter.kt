@@ -1,4 +1,4 @@
-package com.example.fundamentalskotlin.movieslist
+package com.example.fundamentalskotlin.ui
 
 import android.view.LayoutInflater
 import android.view.View

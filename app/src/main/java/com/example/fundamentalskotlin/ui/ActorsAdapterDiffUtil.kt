@@ -1,4 +1,4 @@
-package com.example.fundamentalskotlin.moviesdetails
+package com.example.fundamentalskotlin.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
