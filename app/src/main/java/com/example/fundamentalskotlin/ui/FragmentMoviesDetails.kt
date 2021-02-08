@@ -31,11 +31,11 @@ class FragmentMoviesDetails : Fragment() {
     ): View {
         _binding = FragmentMoviesDetailsBinding.inflate(inflater, container, false)
 
-       val movie = requireArguments().getParcelable<Movie>(Movie::class.java.simpleName)
-        val viewModelFactory = MoviesDetailsViewModelFactory(movie!!)
+       val movie = FragmentMoviesDetailsArgs.fromBundle(requireArguments()).clickedMovie
+
+        val viewModelFactory = MoviesDetailsViewModelFactory(movie)
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(FragmentMoviesDetailsViewModel::class.java)
-
 
         return binding.root
     }

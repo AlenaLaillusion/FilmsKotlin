@@ -12,6 +12,7 @@ class FragmentMoviesDetailsViewModel(
     private val _clickedMovie = MutableLiveData<Movie>()
     val clickedMovie: LiveData<Movie> get() = _clickedMovie
 
+
        fun loadMovie() {
         _clickedMovie.value = movie
     }

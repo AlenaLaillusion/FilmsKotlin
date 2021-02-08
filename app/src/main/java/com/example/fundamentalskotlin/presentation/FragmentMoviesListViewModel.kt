@@ -51,7 +51,6 @@ class FragmentMoviesListViewModel(private val context: Context,
 
     fun clickedMovie (movie: Movie) {
         _clickedMovie.value = movie
-
     }
 
     fun clickedMovieShow() {

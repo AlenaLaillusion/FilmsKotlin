@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.fundamentalskotlin.ChangeFragment
 import com.example.fundamentalskotlin.databinding.FragmentMoviesListBinding
 import com.example.fundamentalskotlin.domain.State
 import com.example.fundamentalskotlin.presentation.FragmentMoviesListViewModel
@@ -18,8 +18,6 @@ import com.example.fundamentalskotlin.presentation.MoviesListViewModelFactory
 class FragmentMoviesList : Fragment() {
 
     private lateinit var viewModel: FragmentMoviesListViewModel
-
-    private val changeFragment: ChangeFragment? get() = (activity as? ChangeFragment)
 
     private var _binding: FragmentMoviesListBinding? = null
     private val binding get() = _binding!!
@@ -44,12 +42,13 @@ class FragmentMoviesList : Fragment() {
             MoviesAdapter(
                 ClickListener { movie ->
                     viewModel.clickedMovie(movie)
-                    changeFragment?.addFragmentMovieDetails(movie)
                 })
         binding.rvMovie.layoutManager = GridLayoutManager(context, GRID_LAYOUT_ROW_COUNT)
 
         setObservers()
+
     }
+
 
     private fun setObservers() {
         viewModel.moviesData.observe(viewLifecycleOwner, { movieList ->
@@ -72,6 +71,8 @@ class FragmentMoviesList : Fragment() {
 
         viewModel.clickedMovie.observe(viewLifecycleOwner, {
             if (null != it) {
+                this.findNavController()
+                    .navigate(FragmentMoviesListDirections.actionToMoviesDetails(it))
                 viewModel.clickedMovieShow()
             }
         })

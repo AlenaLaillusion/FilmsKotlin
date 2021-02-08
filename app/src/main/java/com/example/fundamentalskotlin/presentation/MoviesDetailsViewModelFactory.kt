@@ -10,7 +10,9 @@ class MoviesDetailsViewModelFactory(private val movie: Movie) : ViewModelProvide
     @ExperimentalSerializationApi
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T = when (modelClass) {
-        FragmentMoviesDetailsViewModel::class.java -> FragmentMoviesDetailsViewModel(movie)
+        FragmentMoviesDetailsViewModel::class.java -> FragmentMoviesDetailsViewModel(
+            movie
+        )
         else -> throw IllegalArgumentException("$modelClass is not registered ViewModel")
     } as T
 }
