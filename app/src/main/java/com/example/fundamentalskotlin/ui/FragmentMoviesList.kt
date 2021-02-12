@@ -31,7 +31,7 @@ class FragmentMoviesList : Fragment() {
     ): View? {
         _binding = FragmentMoviesListBinding.inflate(inflater, container, false)
 
-        val viewModelFactory = MoviesListViewModelFactory(requireContext())
+        val viewModelFactory = MoviesListViewModelFactory()
         viewModel = ViewModelProvider(this, viewModelFactory).get(FragmentMoviesListViewModel::class.java)
 
         return binding.root

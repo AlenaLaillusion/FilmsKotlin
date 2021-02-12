@@ -1,20 +1,18 @@
 package com.example.fundamentalskotlin.presentation
 
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fundamentalskotlin.R
+import com.example.fundamentalskotlin.api.MoviesApi
+import com.example.fundamentalskotlin.api.parceMovie
 import com.example.fundamentalskotlin.data.Movie
-import com.example.fundamentalskotlin.data.loadMovies
 import com.example.fundamentalskotlin.domain.State
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 
-class FragmentMoviesListViewModel(private val context: Context,
-                            private val dispatcher: CoroutineDispatcher) : ViewModel() {
+class FragmentMoviesListViewModel(private val moviesApi: MoviesApi) : ViewModel() {
 
     private val _state = MutableLiveData<State>(State.Init())
     val state: LiveData<State>get() = _state
@@ -35,7 +33,11 @@ class FragmentMoviesListViewModel(private val context: Context,
             try {
                 _state.value = State.Loading()
 
-               val movies = loadMovies(context, dispatcher)
+                val moviesResponce = moviesApi.getMovies()
+                val genresResponce = moviesApi.getGenres()
+
+                val movies = parceMovie(moviesResponce.results, genresResponce.genres)
+
                 _moviesData.value = movies
 
                 _state.value = State.Success()
@@ -44,7 +46,7 @@ class FragmentMoviesListViewModel(private val context: Context,
                 _state.value = State.Error()
                 Log.e(
                     FragmentMoviesListViewModel::class.java.simpleName,
-                    R.string.error_movies_mesage_Data.toString() + {e.message})
+                    R.string.error_movies_mesage_Data.toString(), e)
             }
         }
     }

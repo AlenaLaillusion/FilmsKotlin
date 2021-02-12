@@ -1,24 +1,19 @@
 package com.example.fundamentalskotlin.presentation
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
+import com.example.fundamentalskotlin.api.RetrofitModule
 import kotlinx.serialization.ExperimentalSerializationApi
+import retrofit2.create
 
 //Movies List
-class MoviesListViewModelFactory(
-    private val context: Context,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.Default
-) : ViewModelProvider.Factory {
+class MoviesListViewModelFactory: ViewModelProvider.Factory {
 
     @ExperimentalSerializationApi
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T = when (modelClass) {
         FragmentMoviesListViewModel::class.java -> FragmentMoviesListViewModel(
-            context = context,
-            dispatcher = dispatcher
+             moviesApi = RetrofitModule.retrofit.create()
         )
         else -> throw IllegalArgumentException("$modelClass is not registered ViewModel")
     } as T
