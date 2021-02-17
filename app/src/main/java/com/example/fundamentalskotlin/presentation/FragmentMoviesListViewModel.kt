@@ -8,11 +8,15 @@ import androidx.lifecycle.viewModelScope
 import com.example.fundamentalskotlin.R
 import com.example.fundamentalskotlin.api.MoviesApi
 import com.example.fundamentalskotlin.api.parceMovie
+import com.example.fundamentalskotlin.cache.MovieRepositoryImpl
 import com.example.fundamentalskotlin.data.Movie
 import com.example.fundamentalskotlin.domain.State
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class FragmentMoviesListViewModel(private val moviesApi: MoviesApi) : ViewModel() {
+class FragmentMoviesListViewModel(private val moviesApi: MoviesApi,
+                                  private val repositoryImpl: MovieRepositoryImpl) : ViewModel() {
 
     private val _state = MutableLiveData<State>(State.Init())
     val state: LiveData<State>get() = _state
@@ -23,33 +27,54 @@ class FragmentMoviesListViewModel(private val moviesApi: MoviesApi) : ViewModel(
     private val _clickedMovie = MutableLiveData<Movie>()
     val clickedMovie: LiveData<Movie> get() = _clickedMovie
 
-    init {
-        loadingMovies()
-    }
 
-
-   private fun loadingMovies() {
+    fun loadMovies() {
         viewModelScope.launch {
-            try {
-                _state.value = State.Loading()
-
-                val moviesResponce = moviesApi.getMovies()
-                val genresResponce = moviesApi.getGenres()
-
-                val movies = parceMovie(moviesResponce.results, genresResponce.genres)
-
-                _moviesData.value = movies
-
-                _state.value = State.Success()
-
-            } catch (e: Exception) {
-                _state.value = State.Error()
-                Log.e(
-                    FragmentMoviesListViewModel::class.java.simpleName,
-                    R.string.error_movies_mesage_Data.toString(), e)
-            }
+            _state.value = State.Loading()
+            loadingMoviesDb()
+            loadingMoviesApi()
         }
     }
+
+   private suspend fun loadingMoviesApi() {
+       try {
+       val networkMovie = withContext(Dispatchers.IO) {
+           val moviesResponce = moviesApi.getMovies()
+           val genresResponce = moviesApi.getGenres()
+           parceMovie(moviesResponce.results, genresResponce.genres)
+       }
+       _moviesData.value = networkMovie
+       _state.value = State.Success()
+
+       if (!networkMovie.isNullOrEmpty()) {
+           repositoryImpl.updateMoviesCache(networkMovie)
+       }
+            } catch (e: Exception) {
+           if (state.value != State.Success()) {
+               _state.value = State.Error()
+           }
+                Log.e(FragmentMoviesListViewModel::class.java.simpleName,
+                    R.string.error_movies_mesage_Api.toString(), e)
+            }
+        }
+
+   private suspend fun loadingMoviesDb() {
+       try {
+           val localMovie = withContext(Dispatchers.IO) {
+               repositoryImpl.getAllMovies()
+           }
+           if (localMovie.isNotEmpty()) {
+               _moviesData.value = localMovie
+               _state.value = State.Success()
+           }
+    } catch (e: Exception) {
+           if (state.value != State.Success()) {
+               _state.value = State.Error()
+           }
+           Log.e(FragmentMoviesListViewModel::class.java.simpleName,
+               R.string.error_movies_mesage_Db.toString(), e)
+       }
+   }
 
     fun clickedMovie (movie: Movie) {
         _clickedMovie.value = movie

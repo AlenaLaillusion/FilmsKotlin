@@ -25,8 +25,10 @@
 
     <string name="fragment_movies_chosen_text">You chose: %1$s</string>
 
-    <string name="error_movies_mesage_Data">Error loading movies data from Data</string>
+    <string name="error_movies_mesage_Api">Error loading movies data from Api</string>
+    <string name="error_movies_mesage_Db">Error loading movies data from DataBase</string>
 
-    <string name="error_actors_mesage_Data">Error loading actors data from Data</string>
+    <string name="error_actors_mesage_Api">Error loading actors data from Api</string>
+    <string name="error_actors_mesage_Db">Error loading actors data from DataBase</string>
 
 </resources>
