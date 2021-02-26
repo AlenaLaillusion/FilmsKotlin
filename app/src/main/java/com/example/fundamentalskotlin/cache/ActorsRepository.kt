@@ -7,4 +7,5 @@ interface ActorsRepository {
     suspend fun getAllActors(movieId: Int): List<Actor>
 
     suspend fun updateActorsCache(actors: List<Actor>, movieId: Int)
+
 }

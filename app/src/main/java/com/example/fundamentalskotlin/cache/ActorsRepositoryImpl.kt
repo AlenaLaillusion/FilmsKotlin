@@ -18,6 +18,7 @@ class ActorsRepositoryImpl : ActorsRepository {
         moviesDataBase.moviesDao.insertActors(actors.map { toActorEntity(it, movieId) })
     }
 
+
     private fun toActor(actorsEntity: ActorsEntity) = Actor(
         id = actorsEntity.actorId,
         name = actorsEntity.name,

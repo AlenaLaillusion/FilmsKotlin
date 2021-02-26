@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fundamentalskotlin.R
 import com.example.fundamentalskotlin.api.MoviesApi
+import com.example.fundamentalskotlin.api.MoviesLoading
 import com.example.fundamentalskotlin.api.parceMovie
 import com.example.fundamentalskotlin.cache.MovieRepositoryImpl
 import com.example.fundamentalskotlin.data.Movie
@@ -16,7 +17,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class FragmentMoviesListViewModel(private val moviesApi: MoviesApi,
-                                  private val repositoryImpl: MovieRepositoryImpl) : ViewModel() {
+                                  private val repositoryImpl: MovieRepositoryImpl
+                                  ) : ViewModel(), MoviesLoading {
 
     private val _state = MutableLiveData<State>(State.Init())
     val state: LiveData<State>get() = _state
@@ -31,18 +33,15 @@ class FragmentMoviesListViewModel(private val moviesApi: MoviesApi,
     fun loadMovies() {
         viewModelScope.launch {
             _state.value = State.Loading()
-            loadingMoviesDb()
-            loadingMoviesApi()
+            loadingMoviesCatch()
+            loadingMoviesNet()
         }
     }
 
-   private suspend fun loadingMoviesApi() {
-       try {
-       val networkMovie = withContext(Dispatchers.IO) {
-           val moviesResponce = moviesApi.getMovies()
-           val genresResponce = moviesApi.getGenres()
-           parceMovie(moviesResponce.results, genresResponce.genres)
-       }
+  suspend fun loadingMoviesNet() {
+      try{
+      val networkMovie = loadingMoviesApi()
+
        _moviesData.value = networkMovie
        _state.value = State.Success()
 
@@ -58,11 +57,12 @@ class FragmentMoviesListViewModel(private val moviesApi: MoviesApi,
             }
         }
 
-   private suspend fun loadingMoviesDb() {
+    suspend fun loadingMoviesCatch() {
        try {
-           val localMovie = withContext(Dispatchers.IO) {
+           val localMovie =  withContext(Dispatchers.IO) {
                repositoryImpl.getAllMovies()
            }
+
            if (localMovie.isNotEmpty()) {
                _moviesData.value = localMovie
                _state.value = State.Success()
@@ -75,6 +75,15 @@ class FragmentMoviesListViewModel(private val moviesApi: MoviesApi,
                R.string.error_movies_mesage_Db.toString(), e)
        }
    }
+
+    override suspend fun loadingMoviesApi()=
+        withContext(Dispatchers.IO) {
+            val moviesResponce = moviesApi.getMovies()
+            val genresResponce = moviesApi.getGenres()
+            parceMovie(moviesResponce.results, genresResponce.genres)
+        }
+
+
 
     fun clickedMovie (movie: Movie) {
         _clickedMovie.value = movie

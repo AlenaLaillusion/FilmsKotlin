@@ -31,4 +31,7 @@
     <string name="error_actors_mesage_Api">Error loading actors data from Api</string>
     <string name="error_actors_mesage_Db">Error loading actors data from DataBase</string>
 
+    <string name="work_completed">doWork() completed...</string>
+    <string name="do_work_actors_network">doWork() NetworkMoviesLoading...</string>
+
 </resources>

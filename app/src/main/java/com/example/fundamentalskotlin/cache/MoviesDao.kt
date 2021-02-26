@@ -31,6 +31,9 @@ interface MoviesDao {
     @Query("DELETE FROM ACTORS WHERE movie_id == :movieId")
     suspend fun deleteActorsByMovieId(movieId: Int)
 
+    @Query("DELETE FROM ACTORS")
+    suspend fun deleteActorsAll()
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertActors(actors: List<ActorsEntity> )
 

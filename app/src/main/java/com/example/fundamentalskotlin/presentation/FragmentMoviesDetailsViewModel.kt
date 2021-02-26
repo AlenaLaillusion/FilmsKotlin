@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fundamentalskotlin.R
+import com.example.fundamentalskotlin.api.ActorsLoading
 import com.example.fundamentalskotlin.api.MoviesApi
 import com.example.fundamentalskotlin.api.parceActors
 import com.example.fundamentalskotlin.cache.ActorsRepositoryImpl
@@ -19,7 +20,7 @@ class FragmentMoviesDetailsViewModel(
     private val movie: Movie,
     private val moviesApi: MoviesApi,
     private val actorRepository: ActorsRepositoryImpl
-) : ViewModel() {
+) : ViewModel(), ActorsLoading {
 
     private val _clickedMovie = MutableLiveData<Movie>()
     val clickedMovie: LiveData<Movie> get() = _clickedMovie
@@ -34,16 +35,14 @@ class FragmentMoviesDetailsViewModel(
     fun loadingActors(movieId: Int) {
         viewModelScope.launch {
             loadingActorsDb(movieId)
-            loadingActorsApi(movieId)
+            loadingActorsNet(movieId)
         }
     }
 
-    private suspend fun loadingActorsApi(movieId: Int) {
+    private suspend fun loadingActorsNet(movieId: Int) {
         try {
-            val networkActors = withContext(Dispatchers.IO) {
-                val actorsResponce = moviesApi.getActors(movieId = movieId)
-                parceActors(actorsResponce.actors)
-            }
+            val networkActors = loadingActorsApi(movieId = movieId)
+
             _actors.value = networkActors
 
             if (!networkActors.isNullOrEmpty()) {
@@ -69,4 +68,10 @@ class FragmentMoviesDetailsViewModel(
                 R.string.error_actors_mesage_Db.toString(), e)
         }
     }
+
+    override suspend fun loadingActorsApi(movieId: Int): List<Actor> =
+        withContext(Dispatchers.IO) {
+            val actorsResponce = moviesApi.getActors(movieId)
+            parceActors(actorsResponce.actors)
+        }
 }
