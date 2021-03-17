@@ -9,7 +9,7 @@ object MovieDbContract {
     object MovieContract {
         const val TABLE_NAME = "movies"
 
-        const val COLLUMN_NAME_ID = BaseColumns._ID
+        const val COLLUMN_NAME_ID = "movie_id"
     }
 
     object ActorsContract {

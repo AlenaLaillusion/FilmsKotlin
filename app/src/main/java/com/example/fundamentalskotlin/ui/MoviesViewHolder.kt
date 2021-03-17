@@ -25,12 +25,15 @@ class MoviesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
             else -> binding.tvRectangle.visibility = View.INVISIBLE
         }
-
         binding.tvName.text = movie.title
-        binding.tvMinut.text = movie.runtime.toString() + itemView.resources.getString(R.string.min)
         binding.tvReviews.text = movie.reviews.toString() + itemView.resources.getString(R.string.reviews_)
         binding.tvGenre.text = movie.genres.joinToString(", ")
         binding.ratingStar.rating = movie.ratings / RATING_CONST
+        if (movie.runtime != null) {
+            binding.tvMinut.text = movie.runtime.toString() + itemView.resources.getString(R.string.min)
+        } else {
+            binding.tvMinut.text = movie.ratings.toString()
+        }
 
         Log.d(MoviesViewHolder::class.toString(), "tvGenre= ${movie.genres.joinToString(", ")}")
 

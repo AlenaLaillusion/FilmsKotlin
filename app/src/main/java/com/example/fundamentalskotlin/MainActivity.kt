@@ -1,5 +1,6 @@
 package com.example.fundamentalskotlin
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -28,15 +29,36 @@ class MainActivity : AppCompatActivity(), ChangeFragment {
 
         if (savedInstanceState == null) {
            openFragment(FragmentMoviesList(), false)
+            intent?.let(::handleIntent)
         }
 
         startPeriodicWorkRequest()
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        if (intent != null) {
+            handleIntent(intent)
+        }
+    }
+
+    private fun handleIntent(intent: Intent) {
+        when (intent.action) {
+            Intent.ACTION_VIEW -> {
+                val id = intent.data?.lastPathSegment
+                val movieId = id?.split('?')?.getOrNull(0)?.toIntOrNull()
+
+                Log.d(MainActivity::class.java.simpleName, "movieId =  ${movieId}")
+                movieId.let {
+                    openFragmentMovieTop(movieId!!)
+                    }
+                }
+            }
+        }
+
     private fun startPeriodicWorkRequest() {
         val constrains = Constraints.Builder()
              .setRequiredNetworkType(NetworkType.CONNECTED)
-             .setRequiresCharging(true)
             .build()
 
         val work = PeriodicWorkRequestBuilder<MoviesWorkRepository>(UPDATE, TimeUnit.MINUTES)
@@ -71,9 +93,18 @@ class MainActivity : AppCompatActivity(), ChangeFragment {
             transaction.commit()
     }
 
-    companion object {
-        const val UPDATE = 20L
+   fun openFragmentMovieTop(movieId: Int){
+        val fragmentMovieDetails = FragmentMoviesDetails()
+        val args = Bundle()
+        args.putInt(MOVIE_ID, movieId)
+        fragmentMovieDetails.setArguments(args)
+        openFragment(fragmentMovieDetails, true)
     }
 
+    companion object {
+        const val UPDATE = 20L
+        const val MOVIE_ID = "movie_id"
+
+    }
 }
 

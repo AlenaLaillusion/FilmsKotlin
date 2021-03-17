@@ -1,6 +1,7 @@
 package com.example.fundamentalskotlin.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
+import com.example.fundamentalskotlin.MainActivity.Companion.MOVIE_ID
 import com.example.fundamentalskotlin.R
 import com.example.fundamentalskotlin.data.Actor
 import com.example.fundamentalskotlin.data.Movie
@@ -26,15 +28,20 @@ class FragmentMoviesDetails : Fragment() {
     private var _binding: FragmentMoviesDetailsBinding? = null
     private val binding get() = _binding!!
 
-   private var movie: Movie? = null
+    private var movie: Movie? = null
+    private var movieId: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMoviesDetailsBinding.inflate(inflater, container, false)
 
-         movie = requireArguments().getParcelable<Movie>(Movie::class.java.simpleName)
-        val viewModelFactory = MoviesDetailsViewModelFactory(movie!!)
+        movie = requireArguments().getParcelable<Movie>(Movie::class.java.simpleName)
+        movieId = arguments?.getInt(MOVIE_ID)
+
+        Log.d(FragmentMoviesDetails::class.java.simpleName, "movieId =  ${movieId} , movie = ${movie}")
+
+        val viewModelFactory = MoviesDetailsViewModelFactory(movie)
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(FragmentMoviesDetailsViewModel::class.java)
 
@@ -52,12 +59,18 @@ class FragmentMoviesDetails : Fragment() {
         binding.tvBack.setOnClickListener {
             requireActivity().onBackPressed()
         }
-
         setObservers()
 
-        movie?.let {
-            viewModel.loadMovie()
-            viewModel.loadingActors(it.id)
+        if (movie == null){
+            movieId.let {
+                viewModel.loadMovieId(it!!)
+                viewModel.loadingActors(it)
+            }
+        } else {
+            movie?.let {
+                viewModel.loadMovie()
+                viewModel.loadingActors(it.id)
+            }
         }
 
     }
@@ -69,6 +82,10 @@ class FragmentMoviesDetails : Fragment() {
 
         viewModel.actors.observe(viewLifecycleOwner, {
             setActors(it)
+        })
+
+        viewModel.movieIdTop.observe(viewLifecycleOwner, {
+            setMovieData(it)
         })
 
     }
@@ -89,7 +106,6 @@ class FragmentMoviesDetails : Fragment() {
                 adult -> binding.tvRg.text = resources.getString(R.string.age_rating_default)
                 else -> binding.tvRg.visibility = View.INVISIBLE
             }
-
             binding.tvNamef.text = title
             binding.tvReviews.text = reviews.toString() + resources.getString(R.string.reviews_)
             binding.tvTag.text = genres.joinToString(", ") { it }
@@ -105,7 +121,6 @@ class FragmentMoviesDetails : Fragment() {
              binding.tvCast.visibility = View.INVISIBLE
          }
      }
-
 
     val imageOption = RequestOptions()
         .placeholder(R.drawable.ic_avatar_placeholder)

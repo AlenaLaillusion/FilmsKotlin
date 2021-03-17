@@ -13,7 +13,7 @@ class MoviesWorkRepository(context: Context,
 ) : CoroutineWorker(context, workerParams){
 
     override suspend fun doWork(): Result {
-        Log.d("doWork", "Start doWork")
+        Log.d("doWork", "Start doWork MoviesWorkRepository")
 
         val moviesConstrainedRequest =
             OneTimeWorkRequestBuilder<MoviesWork>()
@@ -28,6 +28,7 @@ class MoviesWorkRepository(context: Context,
             .then(actorsConstrainedRequest)
             .enqueue()
 
+        Log.d("doWork", "MoviesWorkRepository + ${Result.success()}")
         return Result.success()
     }
 

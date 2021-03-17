@@ -8,7 +8,8 @@ import retrofit2.http.Query
 interface MoviesApi {
 
     //https://api.themoviedb.org/3/movie/popular?api_key=<<api_key>>&language=en-US&page=1
-    @GET("movie/top_rated")
+    //https://api.themoviedb.org/3/movie/now_playing?api_key=<<api_key>>&language=en-US&page=1
+    @GET("movie/now_playing")
     suspend fun getMovies (
         @Query("api_key") key: String = BuildConfig.API_KEY,
         @Query("language") language: String = "ru-US",

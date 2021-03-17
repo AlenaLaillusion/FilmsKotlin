@@ -7,8 +7,11 @@ import com.example.fundamentalskotlin.domain.MoviesEntity
 @Dao
 interface MoviesDao {
 
-    @Query("SELECT * FROM MOVIES ORDER BY _id DESC")
+    @Query("SELECT * FROM MOVIES ORDER BY movie_id DESC")
     suspend fun getAllMovies(): List<MoviesEntity>
+
+    @Query("SELECT * FROM movies  WHERE movie_id == :movieId")
+    suspend fun getMovieId(movieId: Int): MoviesEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(movie: MoviesEntity)

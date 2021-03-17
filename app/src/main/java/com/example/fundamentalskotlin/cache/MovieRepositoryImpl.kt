@@ -22,6 +22,11 @@ class MovieRepositoryImpl : MovieRepository {
         moviesDataBase.moviesDao.insertAll(movies.map { toMovieEntity(it) })
     }
 
+    override suspend fun getMovieId(movieId: Int): Movie = withContext(Dispatchers.IO) {
+        val movieEntity = moviesDataBase.moviesDao.getMovieId(movieId)
+        toMovie(movieEntity)
+    }
+
     private fun toMovie(moviesEntity: MoviesEntity) = Movie(
         id = moviesEntity.id,
         title = moviesEntity.title,

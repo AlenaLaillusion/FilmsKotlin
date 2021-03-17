@@ -49,8 +49,7 @@ class FragmentMoviesList : Fragment() {
         binding.rvMovie.layoutManager = GridLayoutManager(context, GRID_LAYOUT_ROW_COUNT)
 
         setObservers()
-        if (savedInstanceState == null)
-            viewModel.loadMovies()
+
     }
 
     private fun setObservers() {

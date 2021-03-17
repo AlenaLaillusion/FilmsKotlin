@@ -9,4 +9,6 @@ interface MovieRepository {
     suspend fun addMovieCache(movie: Movie)
 
     suspend fun updateMoviesCache(movies: List<Movie>)
+
+    suspend fun getMovieId(movieId: Int): Movie
 }

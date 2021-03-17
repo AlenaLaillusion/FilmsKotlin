@@ -34,4 +34,7 @@
     <string name="work_completed">doWork() completed...</string>
     <string name="do_work_actors_network">doWork() NetworkMoviesLoading...</string>
 
+    <string name="chanel_movie_top">Movie top rating</string>
+    <string name="chanel_movie_top_description">Movie with top rating</string>
+
 </resources>
